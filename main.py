@@ -1,25 +1,40 @@
-def input_data():
-    return input("Введите текст: ")
+def main():
+    data = None
+    result = None
 
-def generate_data():
-    import random
-    words = ["example", "text", "generation", "random", "words", "vowels", "consonants"]
-    return " ".join(random.choices(words, k=random.randint(5, 15)))
+    while True:
+        print("\nМеню:")
+        print("1. Ввод данных вручную")
+        print("2. Генерация случайных данных")
+        print("3. Выполнение алгоритма")
+        print("4. Вывод результата")
+        print("5. Завершение работы")
+        choice = input("Выберите пункт меню: ")
 
-def process_data(data):
-    words = re.findall(r'\b\w+\b', data)  # Извлечение слов
-    vowels = "aeiouyAEIOUY"
-    consonants = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ"
+        try:
+            if choice == '1':
+                data = input_data()
+                result = None  # Сброс результата
+            elif choice == '2':
+                data = generate_data()
+                result = None  # Сброс результата
+            elif choice == '3':
+                if data:
+                    result = process_data(data)
+                else:
+                    print("no input data")
+            elif choice == '4':
+                if result:
+                    display_result(result)
+                else:
+                    print("algorithm failed")
+            elif choice == '5':
+                print("program completed")
+                break
+            else:
+                print("invalid input")
+        except Exception as e:
+            print(f"Warning: {e}")
 
-    total_vowels = sum(1 for char in data if char in vowels)
-    result = []
-    for word in words:
-        num_vowels = sum(1 for char in word if char in vowels)
-        num_consonants = sum(1 for char in word if char in consonants)
-        result.append((word, num_vowels, num_consonants, total_vowels))
-    return result
-
-def display_result(result):
-    print("\nРезультат обработки текста:")
-    for word, vowels_count, consonants_count, total_vowels in result:
-        print(f"Слово: {word}, Гласные: {vowels_count}, Согласные: {consonants_count}, Всего гласных в тексте: {total_vowels}")
+if name == "__main__":
+    main()
